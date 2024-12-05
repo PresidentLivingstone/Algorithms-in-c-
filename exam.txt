@@ -326,5 +326,33 @@ int main() {
     return 0;
 }
 
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void findMinMax(const vector<int>& arr, int& minVal, int& maxVal) {
+    // Initialize min and max with the first element
+    minVal = maxVal = arr[0];
+
+    // Traverse the array to find min and max
+    for (int num : arr) {
+        if (num < minVal) minVal = num; // Update min if smaller value is found
+        if (num > maxVal) maxVal = num; // Update max if larger value is found
+    }
+}
+
+int main() {
+    vector<int> arr = {12, 45, 7, 9, 33, 5, 89};
+
+    int minVal, maxVal;
+    findMinMax(arr, minVal, maxVal);
+
+    cout << "Minimum value: " << minVal << endl;
+    cout << "Maximum value: " << maxVal << endl;
+
+    return 0;
+}
+
+
 
 
