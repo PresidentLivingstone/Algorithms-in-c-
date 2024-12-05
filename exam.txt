@@ -1,0 +1,245 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int partition(vector<int> &arr, int low, int high) {
+    int pivot = arr[low];  // Pivot is the first element
+    int i = low;
+    int j = high;
+
+    while (i < j) {
+        while (arr[i] <= pivot && i < high) {  // Compare with pivot (value, not index)
+            i++;
+        }
+        while (arr[j] > pivot && j > low) {  // Compare with pivot (value, not index)
+            j--;
+        }
+        if (i < j) {
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[j], arr[low]);  // Place pivot at correct position
+    return j;  // Return the partition index
+}
+
+void quickSort(vector<int> &arr, int low, int high) {
+    if (low < high) {
+        int partIndex = partition(arr, low, high);
+        quickSort(arr, low, partIndex - 1);
+        quickSort(arr, partIndex + 1, high);
+    }
+}
+
+int main() {
+    vector<int> arr = {2, 1, 3, 7, 4, 9, 3, 5};
+    int n = arr.size();
+    quickSort(arr, 0, n - 1);
+
+    for (int i = 0; i < n; i++) {  // Correct loop bounds
+        cout << arr[i] << " ";
+    }
+
+    return 0;
+}
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void merge(vector<int> &arr, int low, int mid, int high) {
+    int left = low;
+    int right = mid + 1;
+    vector<int> temp;
+    
+    while (left <= mid && right <= high) {
+        if (arr[left] < arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
+        } else {
+            temp.push_back(arr[right]);
+            right++;
+        }
+    }
+    
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
+    }
+    
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+    
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+}
+
+void mergeSort(vector<int> &arr, int low, int high) {
+    if (low >= high) return;
+    int mid = (low + high) / 2;
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid + 1, high);
+    merge(arr, low, mid, high);
+}
+
+int main() {
+    vector<int> arr = {2, 3, 1, 4, 3, 6, 7};
+    int n = arr.size();  // Use vector's size method
+    mergeSort(arr, 0, n - 1);  // Pass 0 to n-1 for correct bounds
+    
+    for (int i = 0; i < n; i++) {  // Correct loop condition
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
+
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void heapify(vector <int> & arr, int n, int i){
+    int largest = i;
+    int left = 2*i+1;
+    int right = 2*i+2;
+    if(left< n && arr[largest]< arr[left]){
+        largest = left;
+    }
+    if(right< n && arr[largest]< arr[right]){
+        largest = right;
+    }
+    if (largest !=i){
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+void heapSort(vector<int> &arr, int n ){
+    for(int i = n/2-1; i>=0; i--){
+        heapify(arr, n, i);
+    }
+        for(int i= n-1; i>=0; i--){
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
+void display(vector <int>& arr){
+    for(int i = 0; i< arr.size(); i++ ){
+       cout<< arr[i]<<" ";
+   }
+}
+int main() {
+     vector <int> arr= {2,3,1,5,7,6,4 };
+     int n = arr.size();
+     heapSort(arr, n);
+     display(arr);
+
+    return 0;
+}
+
+#include <iostream>
+#include <vector>
+
+
+using namespace std;
+
+pair<int, int> findMinMax(const vector<int>& arr) {
+    
+    int minVal = arr[0]; 
+    
+    int maxVal = arr[0]; 
+    
+    for (int num : arr) {
+        if (num < minVal) {
+            minVal = num; 
+        }
+        if (num > maxVal) {
+            maxVal = num; 
+        }
+    }
+
+    return make_pair(minVal, maxVal); 
+}
+
+int main() {
+    vector<int> array = {5, 3, 8, 1, 9, 2};
+
+    auto [minVal, maxVal] = findMinMax(array);
+
+    cout << "Minimum value: " << minVal << endl;
+    cout << "Maximum value: " << maxVal << endl;
+
+    return 0;
+}
+
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+int binarySearch(int arr[],int n, int target){
+    int low = 0;
+    int high = n-1;
+    while(low<high){
+        int mid = (low+high)/2;
+        if(arr[mid]==target){
+            return mid;
+        }
+        else if(arr[mid]<target){
+            low = mid+1;
+        }
+        else if(arr[mid]>target){
+            high = mid-1;
+        }
+    }
+    return -1;
+}
+int main() {
+    int arr[]= {1,2,3,4,5,6,7};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int result = binarySearch(arr,n, 4 );
+    if(result ==-1){
+        cout<< "Target not found ";
+    }else{
+        cout<< "Target fount at index "<< result;
+    }
+    return 0;
+}
+
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <climits>
+using namespace std;
+pair<int,int> findMinMaxDAC(int arr[], int low , int high ){
+    if (low==high){
+        return make_pair(arr[low], arr[high]);
+    }
+    if(high == low+1){
+        if(arr[low]<arr[high]){
+            return make_pair(arr[low], arr[high]);
+        }
+        if(arr[low]>arr[high]){
+            return make_pair(arr[high], arr[low]);
+        }
+    }
+    //divide
+   int mid = (low+high)/2;
+   pair<int, int>leftMinMax = findMinMaxDAC(arr, low, mid);
+   pair<int, int>rightMinMax = findMinMaxDAC(arr, mid+1, high);
+   
+   //conquer
+   int overallMin = min(leftMinMax.first, rightMinMax.first);
+   int overallMax = max(leftMinMax.second, rightMinMax.second);
+   return make_pair(overallMin,overallMax);
+}
+    
+int main() {
+    int arr[]= {1,2,3,4,2,8,11,3,7};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    auto [minVal, maxVal] = findMinMaxDAC(arr,0, n-1);
+    cout<< "Minimun value : "<< minVal<<endl;
+    cout<< "Maximun value : "<<maxVal<<endl;
+    return 0;
+}
+
+
+
